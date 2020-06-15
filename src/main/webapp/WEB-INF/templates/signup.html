@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Registrar Usuario</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+</head>
+
+<body>
+	<nav th:replace="fragmentos/header_loader"></nav>
+
+	<div>
+		<div>
+			<h3>Registrar Usuario</h3>
+
+			<div>
+				<div>
+
+					<div></div>
+					<input type="hidden" th:value="${session.rol}">
+
+					<form th:object="${Cliente}" method="post">
+						<div>
+							<div>
+								<label for="nombre">Nombre: </label> <input type="text"
+									th:field="*{nombre}" name="nombre"
+									placeholder="Nombre" required pattern="[A-Za-z]*{3,40}"
+									minlength="3" maxlength="40"
+									title="Sólo letras, carácter mínimo: 3. carácter máximo: 40">
+							</div>
+
+							<div>
+								<label for="apellido">Apellido: </label> <input type="text"
+									th:field="*{apellido}" name="apellido"
+									placeholder="Apellido" required pattern="[A-Za-z]*{3,40}"
+									minlength="3" maxlength="40"
+									title="Sólo letras, carácter mínimo: 3. carácter máximo: 40">
+
+							</div>
+
+							<div>
+								<label for="fnacimiento">Fecha de Nacimiento: </label> <input
+									type="date" th:field="*{fnacimiento}"
+									name="fnacimiento" min="01-01-1888" placeholder="17-02-1987"
+									required>
+							</div>
+
+							<div>
+								<label for="email">Email: </label> <input type="email"
+									th:field="*{email}" name="email"
+									placeholder="example@example.com"
+									pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}"
+									required>
+							</div>
+
+
+							<div>
+								<label for="direccion">Dirección de Envío: </label> <input
+									type="text" th:field="*{direccion}"
+									name="direccion" placeholder="Direccion" minlength="6"
+									maxlength="100" required>
+							</div>
+
+							<div>
+								<label for="password">Password</label> <input type="password"
+									th:field="*{password}" name="password"
+									placeholder="Password" minlength="6" maxlength="80" required>
+							</div>
+
+							<div>
+								<button type="submit">Sign Up</button>
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

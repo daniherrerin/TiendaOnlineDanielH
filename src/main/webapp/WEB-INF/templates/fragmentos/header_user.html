@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<meta charset="utf-8">
+
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+</head>
+<body>
+
+	<nav>
+		<a
+			th:href="@{/Cliente/perfil-cliente/{idCliente}(idCliente=${session.idUsuario})}"
+			th:text="${session.email}"> </a>
+
+		<div>
+			<ul>
+				<li><a th:href="@{/index}">Inicio</a></li>
+
+				<li><a
+					th:href="@{/Producto/list-product-user/{idCliente}(idCliente=${session.idUsuario})}">Todos
+						los Productos</a></li>
+
+				<li><a
+					th:href="@{/ListaPedido/list-pedido-user/{idCliente}(idCliente=${session.idUsuario})}">Pedidos</a></li>
+
+				<li><a
+				th:href="@{/Compra/show-carrito/{idCliente}(idCliente=${session.idUsuario})}">Carrito</a>
+				</li>
+
+			</ul>
+
+			<ul>
+				<li><a th:href="@{/logout}">Log Out</a></li>
+			</ul>
+
+		</div>
+	</nav>
+
+</body>
+</html>
+

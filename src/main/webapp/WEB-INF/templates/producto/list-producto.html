@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="utf-8">
+
+
+<title>Gestionar productos</title>
+
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+</head>
+<body>
+	<nav th:replace="fragmentos/header_loader"></nav>
+	<br>
+	<br>
+
+	<div>
+		<div>
+
+			<div>
+				<h1>Gestionar Productos</h1>
+			</div>
+
+			<div>
+
+				<div></div>
+				<a href="#" th:href="@{/Producto/create-producto}">
+					<button type="submit">
+						<span aria-hidden="true"></span>Añadir Producto
+					</button>
+				</a>
+				<table>
+					<thead>
+						<tr>
+							<th>Código Producto</th>
+							<th>Título</th>
+							<th>Descripción</th>
+							<th>Precio</th>
+							<th>Descuento</th>
+							<th>Stock</th>
+							<th>Editar</th>
+							<th>Eliminar</th>
+					</thead>
+
+					<tbody th:if="${listaProductos != null}">
+						<tr th:each="producto : ${listaProductos}">
+
+							<td style="display: none;"
+								th:text="${producto.idProducto}"></td>
+							<td><a href=#
+								th:href="@{/Producto/perfil-producto/{idProducto}(idProducto=${producto.idProducto})}"
+								type="button"><span th:text="${producto.codProducto}"></span></a></td>
+							<td th:text=" ${producto.titulo}"></td>
+							<td th:text=" ${producto.descripcion}"></td>
+							<td th:text=" ${producto.precio}"></td>
+							<td th:text=" ${producto.descuento}"></td>
+							<td th:text=" ${producto.stock}"></td>
+
+							<td sec:authorize="hasAuthority('ROL_ADMIN')"><a href=#
+								th:href="@{/Producto/editar-producto/{idProducto}(idProducto=${producto.idProducto})}">
+									<button type="button">
+										<span aria-hidden="true">Editar</span>
+									</button>
+							</a></td>
+							<td sec:authorize="hasAuthority('ROL_ADMIN')"><a
+								><i>&times;</i></a></td>
+						</tr>
+
+						<tr th:if="${listaProductos == null}">
+							<td>No hay productos</td>
+						</tr>
+					</tbody>
+				</table>
+				
+			</div>
+		</div>
+	</div>
+</body>
+</html>

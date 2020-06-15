@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="master">
+<head>
+<title>Pedido</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<nav th:replace="fragmentos/header_loader"></nav>
+	<br />
+	<br />
+	<div>
+		<h2>Pedidos :</h2>
+
+		<div th:if="${#lists.isEmpty(Compra)}">
+			<div>
+				<div>
+					<h3>No has realizado ningún pedido</h3>
+				</div>
+			</div>
+		</div>
+
+		<div th:if="${not #lists.isEmpty(Compra)}">
+			<div>
+				<div th:each="compra: ${Compra}">
+					<div>
+						<div>
+							<div>
+								<span> Nº de Pedido : </span> <a data-toggle="collapse"
+									th:href="'#collapse' + ${compra.idCompra}"
+									th:text="${compra.idCompra}"></a> <span
+									style="float: right;"
+									th:text="'Pedido Realizado : ' + ${#dates.format(compra.fechaCompra, 'dd-MM-yyyy')}"></span>
+							</div>
+
+
+							<div th:id="'collapse' + ${compra.idCompra}"
+								data-parent="#accordion">
+								<div>
+									<div>
+										<table>
+											<thead>
+												<tr>
+													<td>Nombre Producto :</td>
+													<td>Precio Unidad</td>
+													<td>Cantidad</td>
+													<td>Precio Total</td>
+													<td>Estado</td>
+													<td
+														th:with="days=${T(java.util.concurrent.TimeUnit).DAYS}, millis=${T(java.util.concurrent.TimeUnit).MILLISECONDS}"
+														th:switch="${days.convert(#dates.createNow().getTime() - compra.fechaCompra.getTime(), millis) > 15}">
+														<span th:case="false">Acción</span>
+													</td>
+												</tr>
+											</thead>
+
+											<tbody>
+												<tr
+													th:each="pedido: ${LineaDeCompraServer.findByCompra(compra)}">
+													<td>
+														<p th:if="${pedido.productos == null}">El producto no existe</p>
+
+														<div th:if="${pedido.productos != null}">
+															<span th:text="${pedido.productos.titulo}"> </span>
+														</div>
+													</td>
+
+													<td
+														th:text="${pedido.productos.precio * pedido.cantidad} + '&euro;'"></td>
+													<td th:text="${pedido.cantidad}"></td>
+													<td th:text="${pedido.precioTotal} + '&euro;'"></td>
+													<td th:text="${pedido.estado.iterator().next().estado}"></td>
+													<td
+														th:with="days=${T(java.util.concurrent.TimeUnit).DAYS}, millis=${T(java.util.concurrent.TimeUnit).MILLISECONDS}"
+														th:switch="${days.convert(#dates.createNow().getTime() - compra.fechaCompra.getTime(), millis) > 15}">
+
+														<a
+														th:if="${pedido.estado.iterator().next().idEstado != 2 and pedido.productos !=null}"
+														th:case="false"
+														th:href="@{/ListaPedido/devolucion-pedido/{idCliente}/{idLineaCompra}(idCliente=${Cliente.idCliente}, idLineaCompra=${pedido.idLineaCompra})}">
+															Devolución </a>
+
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+</body>
+</html>

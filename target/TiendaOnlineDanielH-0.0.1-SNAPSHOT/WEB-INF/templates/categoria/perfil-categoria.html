@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<title>Perfil Categorias</title>
+</head>
+<body>
+	<nav th:replace="fragmentos/header_loader"></nav>
+
+	<br />
+	<br />
+	<div>
+		<div>
+
+			<input type="hidden"
+				th:value="${categoria.idCategoria}">
+
+			<div>
+				<div></div>
+
+				<div>
+
+					<div>
+
+						<span>Categoría : </span> <span
+							th:text="${categoria.nombreCategoria}"></span> &nbsp;
+
+						<button>
+							<i></i>
+						</button>
+					</div>
+				</div>
+
+				<br /> <input sec:authorize="hasAuthority('ROL_ADMIN')" type="text"
+					name="buscarProducto"
+					placeholder="Busca el Producto" autocomplete="off"
+					spellcheck="false"
+					style="position: relative; vertical-align: top; background-color: transparent;">
+				<br /> <br />
+
+				<div></div>
+
+				<br /> <br />
+
+				<table>
+					<thead>
+						<tr>
+							<th scope="col">Código Producto</th>
+							<th scope="col">Nombre de Producto</th>
+							<th scope="col"><i></i></th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr th:if="${categoria.producto.empty}">
+							<td colspan="2">No existen productos en esta categoria</td>
+						</tr>
+
+						<tr th:each="producto : ${categoria.producto}">
+							<td style="display: none;"
+								th:text="${producto.idProducto}"></td>
+							<td th:text="${producto.codProducto}"></td>
+							<td th:text="${producto.titulo}"></td>
+							<td><a><i>&times;</i></a></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>

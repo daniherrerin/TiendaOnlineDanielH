@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+</head>
+<body>
+	<nav>
+		<a th:href="@{/index}">Inicio</a>
+
+		<div>
+			<ul>
+				<li><a th:href="@{/index}">Inicio <span></span>
+				</a></li>
+
+
+
+				<li><a th:href="@{/login}">Log in <span></span>
+				</a></li>
+
+			</ul>
+
+		</div>
+
+	</nav>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Modificar Datos de Cliente</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+</head>
+
+<body>
+<body>
+	<nav th:replace="fragmentos/header_loader"></nav>
+
+	<div>
+		<div>
+			<h3>Modificar Datos:</h3>
+
+			<div>
+				<div>
+					<div></div>
+					<form action="#" th:object="${Cliente}" method="post">
+
+						<!-- id de Cliente  -->
+						<input type="hidden" th:value="${Cliente.idCliente}"> <input
+							type="hidden" th:value="${session.rol}">
+
+						<div>
+
+							<div>
+								<label for="nombre">Nombre: </label> <input type="text"
+									th:field="*{nombre}" th:value="${Cliente.nombre}" minlength="3"
+									maxlength="40" pattern="[A-Za-z]*{3,40}"
+									title="Primera letra en mayúscula, sólo las letras. Tamaño mínimo: 3. Tamaño máximo: 40"
+									required>
+							</div>
+
+							<div>
+								<label for="apellido">Apellido: </label> <input type="text"
+									th:field="*{apellido}" th:value="${Cliente.apellido}"
+									minlength="3" maxlength="40" pattern="[A-Za-z]*{3,40}"
+									title="Primera letra en mayúscula,sólo las letras. Tamaño mínimo: 3. Tamaño máximo: 40"
+									required>
+							</div>
+
+							<div>
+								<label for="fnacimiento">Fecha de Nacimiento: </label> <input
+									type="date" th:field="*{fnacimiento}"
+									th:value="${Cliente.fnacimiento}" min="01-01-1888"
+									placeholder="17-02-1987" required>
+							</div>
+
+							<div>
+								<label for="email">Email: </label> <input type="email"
+									th:field="*{email}" th:value="${Cliente.email}"
+									placeholder="example@example.com"
+									pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}"
+									required>
+							</div>
+
+							<div>
+								<label for="direccion">Dirección: </label> <input type="text"
+									th:field="*{direccion}" th:value="${Cliente.direccion}"
+									minlength="6" maxlength="100" required>
+							</div>
+
+							<div>
+								<label for="password">Password: </label> <input type="text"
+									placeholder="Password" th:field="*{password}"
+									th:value="${Cliente.password}" minlength="6" maxlength="80"
+									title="la longitud de carácter mínimo 6." required>
+							</div>
+
+							<div>
+								<button type="submit">Modificar</button>
+							</div>
+
+						</div>
+					</form>
+
+
+
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

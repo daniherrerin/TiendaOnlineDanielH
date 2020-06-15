@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Devolver producto</title>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+	<nav th:replace="fragmentos/header_loader"></nav>
+
+	<br />
+	<br />
+
+	<div>
+		<form
+			th:action="@{/ListaPedido/realizar-devolucion/{idCliente}/{idLineaCompra}(idCliente=${Cliente.idCliente}, idLineaCompra=${LineaCompra.idLineaCompra})}"
+			method="post">
+
+			<div>
+				<h4>Devolución</h4>
+				<div>
+					<h4>El producto que quieres devolver :</h4>
+					<h6 th:text="'Productos : ' + ${LineaCompra.productos.titulo}"></h6>
+					<p
+						th:text="'Precios : ' + ${LineaCompra.productos.precio} + '&euro;'"></p>
+					<div>
+						<span>Cantidad a devolver :</span> <select
+							name="cantidadDevolucion">
+							<option
+								th:each="cantidad : ${#numbers.sequence(1,LineaCompra.cantidad)}"
+								th:text="${cantidad}"></option>
+						</select>
+					</div>
+					<br /> <br /> <input type="submit" value="Continuar" />
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

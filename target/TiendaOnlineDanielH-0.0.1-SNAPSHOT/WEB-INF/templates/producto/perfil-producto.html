@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Perfil de Producto</title>
+<meta http-equiv=”Content-Type” content="text/html;" charset="UTF-8" />
+
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+
+
+<style>
+.carousel-inner img {
+	width: 100px;
+	height: 350px;
+}
+</style>
+</head>
+
+
+<body>
+
+	<nav th:replace="fragmentos/header_loader"></nav>
+
+	<br />
+	<br />
+
+	<div>
+		<h1>
+			Producto : <span th:text="${Producto.titulo}"></span>
+		</h1>
+
+		<input type="hidden" name="idProducto"
+			th:value="${Producto.idProducto}"> <input type="hidden"
+			name="idUsuario" th:value="${session.idUsuario}">
+
+		<br />
+
+		<div>
+			<div>
+				<div>
+					<div>
+						<div th:if="${!Producto.imagen.isEmpty()}">
+							<div>
+								<figure>
+									<div th:each="imagen : ${Producto.imagen}">
+										<img alt="picture"
+											th:src="@{/ImagenProducto/imagen/{idProducto}/{idImagen}(idProducto=${Producto.idProducto}, idImagen=${imagen.idImagen})}">
+									</div>
+								</figure>
+
+							</div>
+
+						</div>
+
+						<div th:if="${#lists.isEmpty(Producto.imagen)}">
+							<div>
+								<img th:src="@{/imagen/productoSinFoto.png}"
+									style="width: 400px; height: 400px" />
+							</div>
+						</div>
+
+						<br />
+						<div sec:authorize="hasAuthority('ROL_ADMIN')">
+							<button type="button" data-toggle="modal"
+								data-target="#addImagenes">Modificación Imágenes</button>
+
+							<form action="#"
+								th:action="@{/ImagenProducto/action-imagenProducto/{idProducto}(idProducto=${Producto.idProducto})}"
+								method="post" enctype="multipart/form-data">
+
+								<div tabindex="-1" role="dialog"
+									aria-labelledby="addImagenesLabel" aria-hidden="true">
+
+									<div role="document">
+										<div>
+
+											<div>
+												<h5>Imágenes</h5>
+
+												<button type="button" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+
+
+											<div>
+
+												<label for="imagenFile">Selecciona Imagen : </label> <input
+													type="file" name="imagenFile"
+													placeholder="Nombre de Categoría"> <br /> <input
+													name="showIdImagenProducto"
+													type="hidden">
+
+												<div>
+													<div th:each="imagen : ${Producto.imagen}">
+														<inpu type="radio" name="inlineRadioOptions"
+															th:id="'imagen_'+${imagen.idImagen}"
+															th:value="${imagen.idImagen}"
+															onclick="obtenerIdImagen(this.value)">
+														<label th:for="'imagen_'+${imagen.idImagen}"> 
+															<img
+															th:src="@{/ImagenProducto/imagen/{idProducto}/{idImagen}(idProducto=${Producto.idProducto}, idImagen=${imagen.idImagen})}"
+															style="width: 100px; height: 100px" />
+														</label>
+													</div>
+
+
+												</div>
+											</div>
+
+
+											<div>
+
+												<input type="submit" name="action"
+													value="save" disabled="disabled">
+												<button type="submit" name="action"
+													value="update" disabled="disabled">Editar</button>
+												<button type="submit" name="action" value="delete">Eliminar</button>
+												<button type="button" data-dismiss="modal">Close</button>
+
+												<script>
+													function obtenerIdImagen(
+															idImagen) {
+														document
+																.getElementById("showIdImagenProducto").value = idImagen;
+													};
+
+													$("#imagenFile")
+															.change(
+																	function() {
+																		$(
+																				"#buttonEditImage")
+																				.prop(
+																						"disabled",
+																						this.files.length == 0);
+																		$(
+																				"#buttonSaveImage")
+																				.prop(
+																						"disabled",
+																						this.files.length == 0);
+
+																	});
+												</script>
+
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div>
+				<div>
+					<div>
+						<h1 th:text="${Producto.titulo}"></h1>
+						<hr />
+						<p>
+							<span>Descripción : </span><span
+								th:text="${Producto.descripcion}"></span>
+						</p>
+
+						<p>
+							<span>Precio : </span><span
+								th:text="${Producto.precio} + ' &euro;'"></span>
+						</p>
+						<p>
+							<span>Descuento : </span><span
+								th:text="${Producto.descuento} + ' %'"></span>
+						</p>
+
+						<p th:switch="${Producto.stock}">
+							<span>Stock : </span> <span th:case="'0'">No Stock </span> <span
+								th:case="*">Stock </span>
+						</p>
+
+						<div th:if="${Producto.stock == 0 }">El producto está
+							agotado</div>
+
+
+						<div
+							sec:authorize="hasAuthority('ROL_Usuario') || hasAuthority('ROL_ADMIN')"
+							th:if="${Producto.stock > 0}">
+							<a href="#"
+								th:href="@{/Compra/comprarProducto/{idCliente}/{idProducto}(idCliente = ${session.idUsuario}, idProducto = ${Producto.idProducto})}">
+								<button type="button">Añadir al Carrito</button>
+							</a>
+						</div>
+
+
+
+						<div sec:authorize="isAnonymous()">
+							<h5>
+								Tienes que iniciar la sesión para poder comprar el producto <a
+									th:href="@{/login}"> Login</a>
+							</h5>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+
+</html>

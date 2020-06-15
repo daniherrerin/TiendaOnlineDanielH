@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Perfil</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+</head>
+
+<body>
+	<nav th:replace="fragmentos/header_loader"></nav>
+	<br />
+	<div>
+
+
+		<div>
+			<div></div>
+			<div>
+				<h3>Perfil de Usuario :</h3>
+
+				<div>
+					<div>
+
+						<p>
+							Nombre : <span th:text="${Cliente.nombre}"></span>
+						</p>
+						<p>
+							Apellido : <span th:text="${Cliente.apellido}"> </span>
+						</p>
+						<p>
+							Fecha de Nacimiento : <span th:text="${Cliente.fnacimiento}">
+							</span>
+						</p>
+						<p>
+							Email : <span th:text="${Cliente.email}"> </span>
+						</p>
+
+						<p>
+							Dirección : <span th:text="${Cliente.direccion}"></span>
+						</p>
+
+						<a
+							th:href="@{/Cliente/editar-cliente/{idCliente}(idCliente=${Cliente.idCliente})}">Modificar
+							Datos </a> <br />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<br /> <br />
+
+		<div>
+			<div>
+				<h1>Datos Bancarios</h1>
+				<div>
+					<div>
+						<a
+							th:href="@{/Banco/create-banco/{idCliente}(idCliente=${Cliente.idCliente})}">Añadir
+							la cuenta bancaria</a>
+					</div>
+
+					<br />
+
+					<div th:switch="${listaBanco}">
+						<div th:case="null">
+							<p>No hay datos bancarios</p>
+						</div>
+
+						<div th:case="*">
+							<table>
+								<thead>
+									<tr>
+										<th>Nombre de Banco:</th>
+										<th>Número de Tarjeta:</th>
+										<th>Titular:</th>
+										<th>Código de Seguridad:</th>
+										<th>Dirección de Factura:</th>
+										<th>Editar:</th>
+										<th>Eliminar:</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr th:each="Banco : ${listaBanco}">
+										<td th:text="${Banco.nombre}"></td>
+										<td th:text="${Banco.numTarjeta}"></td>
+										<td th:text="${Banco.titular}"></td>
+										<td th:text="${Banco.codSeguridad}"></td>
+										<td th:text="${Banco.dirFactura}"></td>
+										<td><a
+											th:href="@{/Banco/editar-banco/{idCliente}/{idBanco}(idCliente=${Cliente.idCliente},idBanco=${Banco.idBanco})}"><i>Editar</i></a></td>
+										<td><a
+											th:href="@{/Banco/delete-banco/{idCliente}/{idBanco}(idCliente=${Cliente.idCliente},idBanco=${Banco.idBanco})}"><i>Eliminar</i>
+										</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

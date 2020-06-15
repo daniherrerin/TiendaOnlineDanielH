@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+<title>Categorias</title>
+</head>
+<body>
+	<nav th:replace="fragmentos/header_loader"></nav>
+	<br />
+	<br />
+	<div>
+		<div>
+			<h1>Gestionar Categorias</h1>
+			<div>
+
+				<button type="button" data-toggle="modal"
+					data-target="#addCategoria">Añadir Categoría</button>
+
+				<br />
+				<div></div>
+
+				<form action="#" th:object="${categoria}" method="post">
+					<div tabindex="-1" role="dialog"
+						aria-labelledby="addCategoriaLabel" aria-hidden="true">
+
+
+						<div role="document">
+							<div>
+
+								<div>
+									<h5>Añadir Categoria</h5>
+
+									<button type="button" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+
+
+
+								<div>
+									<div></div>
+
+									<div>
+										<label for="nombreCategoria">Nombre Categoría : </label> <input
+											type="text" th:field="*{nombreCategoria}"
+											name="nombreCategoria"
+											placeholder="Nombre de Categoría">
+									</div>
+
+								</div>
+
+								<div>
+									<button type="button" data-dismiss="modal">Close</button>
+
+									<input type="submit" value="Save">
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+
+				<br /> <br />
+
+				<table>
+					<thead>
+						<tr>
+							<th scope="col">Nombre Categoria</th>
+							<th scope="col">Editar</th>
+							<th scope="col">Eliminar</th>
+						</tr>
+					</thead>
+
+					<tbody
+						th:if="${not #lists.isEmpty(listaCategoria)}">
+						<tr sec:authorize="hasAuthority('ROL_ADMIN')"
+							th:each="categoria, iter : ${listaCategoria}">
+							<td style="display: none;"
+								th:text="${categoria.idCategoria}"></td>
+							<td th:text="${categoria.nombreCategoria}"></td>
+							<td sec:authorize="hasAuthority('ROL_ADMIN')"><a
+								th:href="@{/Categoria/{idCategoria}(idCategoria=${categoria.idCategoria})}"><i></i></a></td>
+							<td sec:authorize="hasAuthority('ROL_ADMIN')"><a
+								><i></i></a></td>
+						</tr>
+					</tbody>
+				</table>
+				
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>

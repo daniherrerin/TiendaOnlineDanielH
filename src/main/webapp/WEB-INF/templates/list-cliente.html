@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Lista de Clientes</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+	<nav th:replace="fragmentos/header_loader"></nav>
+	<br />
+	<br />
+	<div>
+		<div>
+			<div>
+				<h1>Gestionar Usuarios</h1>
+			</div>
+			<div>
+				<div th:switch="${listaCliente}">
+					<p>
+						<a href="#" th:href="@{/Cliente/signup}"><i>Añadir Cliente</i></a>
+					</p>
+					<div>
+						<h2 th:case="null">No hay cliente registrado</h2>
+
+						<div th:case="*">
+							<table>
+								<thead>
+									<tr>
+										<th>Nombre:</th>
+										<th>Apellido:</th>
+										<th>Fecha de Nacimiento:</th>
+										<th>Email:</th>
+										<th>Dirección No:</th>
+										<th>Editar</th>
+										<th>Eliminar</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr th:each="Cliente : ${listaCliente}">
+										<td th:text="${Cliente.nombre}"></td>
+										<td th:text="${Cliente.apellido}"></td>
+										<td th:text="${Cliente.fnacimiento}"></td>
+										<td th:text="${Cliente.email}"></td>
+										<td th:text="${Cliente.direccion}"></td>
+
+										<td sec:authorize="hasAuthority('ROL_ADMIN')"><a
+											th:href="@{/Cliente/editar-cliente/{idCliente}(idCliente=${Cliente.idCliente})}"
+											><i>Editar</i></a></td>
+										<td sec:authorize="hasAuthority('ROL_ADMIN')"><a
+											th:href="@{/Cliente/delete-cliente/{idCliente}(idCliente=${Cliente.idCliente})}"
+											><i>Eliminar</i></a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

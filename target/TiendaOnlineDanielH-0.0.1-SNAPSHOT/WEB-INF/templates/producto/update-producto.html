@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es-es">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Modificar Productos</title>
+
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+
+</head>
+
+<body>
+	<nav th:replace="fragmentos/header_loader"></nav>
+
+	<div>
+		<div>
+			<h3>Modificar los productos:</h3>
+
+			<div>
+				<div>
+					<div sec:authorize="hasAuthority('ROL_ADMIN')">
+						<div></div>
+
+						<form th:object="${products}" method="post">
+
+							<div>
+								<input type="hidden" th:field="*{idProducto}" />
+
+								<div>
+									<label for="titulo">Título : </label> <input type="text"
+										th:field="*{titulo}" name="titulo" minlength="5"
+										placeholder="titulo" required="required">
+								</div>
+
+
+								<div>
+									<label for="descripcion"> Descripción </label> <input
+										type="text" th:field="*{descripcion}"
+										name="descripcion"
+										placeholder="Escribe la descripción del producto"
+										minlength="5" maxlength="250" required="required">
+								</div>
+
+
+								<div>
+									<label for="codProducto"> Código de Producto : </label> <input
+										type="number" th:field="*{codProducto}"
+										name="codProducto" placeholder="Escribe el código de Producto"
+										min="1" required="required">
+								</div>
+
+								<div>
+									<label for="precio"> Precio : </label> <input type="number"
+										th:field="*{precio}" step="0.01" name="precio"
+										placeholder="Escribe el precio del producto" pattern="[0-9]"
+										title="Mínimo 0.01€" required="required" min="0.01">
+								</div>
+
+
+
+								<div>
+									<label for="descuento"> Descuento : </label> <input
+										type="number" step="0.01" th:field="*{descuento}"
+										name="descuento"
+										placeholder="Escribe el descuento">
+								</div>
+
+
+
+								<div>
+									<label for="stock"> Stock : </label> <input type="number"
+										th:field="*{stock}" name="stock"
+										placeholder="Escribe el stock " min="1" required="required">
+								</div>
+
+								<div>
+									<button type="submit">Modificar</button>
+								</div>
+
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

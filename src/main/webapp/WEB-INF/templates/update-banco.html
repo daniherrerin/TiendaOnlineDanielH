@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Modificar Banco</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+
+<body>
+	<nav th:replace="fragmentos/header_loader"></nav>
+
+	<div>
+		<h3>Modificar Banco</h3>
+		<div>
+			<div>
+				<div>
+					<form action="#" th:object="${Banco}" method="post"
+						>
+						<div>
+							<input type="hidden"
+								th:value="${Cliente.idCliente}"> <input
+								type="hidden" th:value="${Banco.idBanco}">
+
+							<div>
+								<label for="nombre">Nombre : </label> <input
+									type="text" th:field="*{nombre}"
+									name="nombre" placeholder="Nombre"
+									pattern="[A-Za-z]*{3,40}"
+									title="Sólo letras Tamaño mínimo: 3. Tamaño máximo: 40"
+									required>
+							</div>
+
+
+							<div>
+
+								<label for="numTarjeta"> Número
+									de Tarjeta : </label> <input type="text" th:field="*{numTarjeta}"
+									name="numTarjeta"
+									maxlength="19" placeholder="Ejemplo: xxxx xxxx xxxx xxxx"
+									pattern="[0-9]{13,19}" required>
+
+								<div></div>
+							</div>
+
+
+							<div>
+								<label for="titular"> Titular : </label>
+								<input type="text" th:field="*{titular}"
+									name="titular" placeholder="Ejemplo: Juan"
+									pattern="[A-Za-z]*{3,40}"
+									title="Sólo letras Tamaño mínimo: 3. Tamaño máximo: 40"
+									required>
+							</div>
+
+							<div>
+								<label for="codSeguridad">Código
+									de Seguridad : </label> <input type="text" th:field="*{codSeguridad}"
+									name="codSeguridad"
+									minlength="3" maxlength="3" size="3" placeholder="012"
+									pattern="[0-9]{3}" title="Sólo número, 3 dígitos" required>
+							</div>
+
+
+
+							<div>
+								<label for="dirFactura">Dirección
+									de Factura: </label> <input type="text" th:field="*{dirFactura}"
+									name="dirFactura"
+									placeholder="C/ XXXX NX PX " minlength="5" maxlength="200"
+									title="Sólo letras y numeros. Tamaño mínimo: 5. Tamaño máximo: 200"
+									required>
+							</div>
+
+
+							<div>
+								<input type="submit" value="Modificar">
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
